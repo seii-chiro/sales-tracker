@@ -25,7 +25,9 @@ const router = createBrowserRouter([
       }
     ]
   }
-])
+], {
+  basename: "/sales-tracker"
+})
 
 function App() {
 

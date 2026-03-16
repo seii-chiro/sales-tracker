@@ -147,12 +147,6 @@ const Inventory = () => {
 
   return (
     <section className="space-y-4">
-      <div>
-        <h2 className="text-xl font-semibold text-slate-900">Inventory Management</h2>
-        <p className="text-sm text-slate-600">
-          Add items, adjust stock levels, and manage product images.
-        </p>
-      </div>
 
       <AddInventoryItemForm submitting={creatingItem} onSubmit={handleCreateItem} />
 

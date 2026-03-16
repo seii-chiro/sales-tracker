@@ -58,20 +58,12 @@ const Home = () => {
 
   return (
     <section className="space-y-4">
-      <div>
-        <h2 className="text-xl font-semibold text-slate-900">Point of Sale</h2>
-        <p className="text-sm text-slate-600">
-          Select products, adjust quantities, and complete checkout.
-        </p>
-      </div>
-
       {notice ? (
         <p
-          className={`rounded-lg px-3 py-2 text-sm ${
-            noticeVariant === "success"
-              ? "bg-emerald-100 text-emerald-700"
-              : "bg-rose-100 text-rose-700"
-          }`}
+          className={`rounded-lg px-3 py-2 text-sm ${noticeVariant === "success"
+            ? "bg-emerald-100 text-emerald-700"
+            : "bg-rose-100 text-rose-700"
+            }`}
         >
           {notice}
         </p>

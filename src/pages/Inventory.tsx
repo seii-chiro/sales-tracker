@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import AddInventoryItemForm, {
   type AddInventoryItemInput,
 } from "../components/inventory/AddInventoryItemForm";
@@ -13,6 +13,9 @@ import {
 } from "../lib/inventoryService";
 import type { InventoryItem } from "../types/inventory_items";
 
+const DEFAULT_PAGE_SIZE = 10;
+const PAGE_SIZE_OPTIONS = [5, 10, 20, 50] as const;
+
 const Inventory = () => {
   const { items, loading, error, refetch } = useInventoryItems();
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
@@ -24,6 +27,39 @@ const Inventory = () => {
   const [noticeVariant, setNoticeVariant] = useState<"success" | "error" | null>(
     null,
   );
+  const [mobileAddModalOpen, setMobileAddModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const normalizedSearchQuery = searchQuery.trim().toLowerCase();
+
+  const filteredItems = useMemo(() => {
+    if (!normalizedSearchQuery) {
+      return items;
+    }
+
+    return items.filter((item) =>
+      item.name.toLowerCase().includes(normalizedSearchQuery),
+    );
+  }, [items, normalizedSearchQuery]);
+
+  const totalPages = useMemo(
+    () => Math.max(1, Math.ceil(filteredItems.length / pageSize)),
+    [filteredItems.length, pageSize],
+  );
+  const clampedCurrentPage = Math.min(currentPage, totalPages);
+
+  const paginatedItems = useMemo(() => {
+    const startIndex = (clampedCurrentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+
+    return filteredItems.slice(startIndex, endIndex);
+  }, [clampedCurrentPage, filteredItems, pageSize]);
+
+  const visibleStart =
+    filteredItems.length === 0 ? 0 : (clampedCurrentPage - 1) * pageSize + 1;
+  const visibleEnd = Math.min(clampedCurrentPage * pageSize, filteredItems.length);
 
   const handleStockSave = async (nextStock: number) => {
     if (!selectedItem) {
@@ -112,6 +148,16 @@ const Inventory = () => {
     }
   };
 
+  const handleCreateItemDesktop = async (input: AddInventoryItemInput) => {
+    await handleCreateItem(input);
+    setCurrentPage(1);
+  };
+
+  const handleCreateItemMobile = async (input: AddInventoryItemInput) => {
+    await handleCreateItemDesktop(input);
+    setMobileAddModalOpen(false);
+  };
+
   const handleRemoveItem = async (item: InventoryItem) => {
     const shouldDelete = window.confirm(
       `Remove "${item.name}" from inventory? This cannot be undone.`,
@@ -146,9 +192,13 @@ const Inventory = () => {
   };
 
   return (
-    <section className="space-y-4">
-
-      <AddInventoryItemForm submitting={creatingItem} onSubmit={handleCreateItem} />
+    <section className="space-y-4 pb-20 md:pb-0">
+      <div className="hidden md:block">
+        <AddInventoryItemForm
+          submitting={creatingItem}
+          onSubmit={handleCreateItemDesktop}
+        />
+      </div>
 
       {notice ? (
         <p
@@ -180,17 +230,113 @@ const Inventory = () => {
       ) : null}
 
       {!loading && !error ? (
-        <InventoryTable
-          items={items}
-          actionDisabled={savingStock || creatingItem}
-          uploadingItemId={uploadingItemId}
-          deletingItemId={deletingItemId}
-          onAdjustStock={(item) => {
-            setSelectedItem(item);
-          }}
-          onRemoveItem={handleRemoveItem}
-          onUploadImage={handleImageUpload}
-        />
+        <>
+          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <label className="block w-full text-sm font-medium text-slate-700 sm:max-w-sm">
+                Search items
+                <input
+                  type="search"
+                  value={searchQuery}
+                  onChange={(event) => {
+                    setSearchQuery(event.target.value);
+                    setCurrentPage(1);
+                  }}
+                  placeholder="Search by item name"
+                  className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none"
+                />
+              </label>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchQuery("");
+                  setCurrentPage(1);
+                }}
+                disabled={searchQuery.trim().length === 0}
+                className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:text-slate-300"
+              >
+                Clear
+              </button>
+            </div>
+          </div>
+
+          {filteredItems.length === 0 ? (
+            <p className="rounded-lg border border-slate-200 bg-white p-4 text-sm text-slate-600">
+              {items.length === 0
+                ? "No inventory items found."
+                : "No inventory items match your search."}
+            </p>
+          ) : (
+            <>
+              <InventoryTable
+                items={paginatedItems}
+                actionDisabled={savingStock || creatingItem}
+                uploadingItemId={uploadingItemId}
+                deletingItemId={deletingItemId}
+                onAdjustStock={(item) => {
+                  setSelectedItem(item);
+                }}
+                onRemoveItem={handleRemoveItem}
+                onUploadImage={handleImageUpload}
+              />
+
+              <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                  <div className="text-sm text-slate-600">
+                    Showing {visibleStart}-{visibleEnd} of {filteredItems.length} items
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2">
+                    <label className="flex items-center gap-2 text-sm text-slate-700">
+                      Rows
+                      <select
+                        value={pageSize}
+                        onChange={(event) => {
+                          setPageSize(Number(event.target.value));
+                          setCurrentPage(1);
+                        }}
+                        className="rounded-md border border-slate-300 px-2 py-1 text-sm"
+                      >
+                        {PAGE_SIZE_OPTIONS.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCurrentPage(Math.max(1, clampedCurrentPage - 1));
+                      }}
+                      disabled={clampedCurrentPage === 1}
+                      className="rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:text-slate-300"
+                    >
+                      Previous
+                    </button>
+
+                    <span className="text-sm text-slate-700">
+                      Page {clampedCurrentPage} of {totalPages}
+                    </span>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCurrentPage(Math.min(totalPages, clampedCurrentPage + 1));
+                      }}
+                      disabled={clampedCurrentPage >= totalPages}
+                      className="rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:text-slate-300"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </>
       ) : null}
 
       <StockModal
@@ -205,6 +351,50 @@ const Inventory = () => {
         }}
         onSave={handleStockSave}
       />
+
+      {mobileAddModalOpen ? (
+        <div
+          className="fixed inset-0 z-50 bg-slate-900/50 p-4 md:hidden"
+          onClick={(event) => {
+            if (event.target === event.currentTarget && !creatingItem) {
+              setMobileAddModalOpen(false);
+            }
+          }}
+        >
+          <div className="flex h-full items-end justify-center">
+            <div className="w-full max-w-lg">
+              <div className="mb-2 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileAddModalOpen(false);
+                  }}
+                  disabled={creatingItem}
+                  className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:text-slate-300"
+                >
+                  Close
+                </button>
+              </div>
+              <AddInventoryItemForm
+                submitting={creatingItem}
+                onSubmit={handleCreateItemMobile}
+              />
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      <button
+        type="button"
+        onClick={() => {
+          setMobileAddModalOpen(true);
+        }}
+        disabled={creatingItem}
+        aria-label="Add inventory item"
+        className="fixed bottom-4 right-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-slate-900 text-3xl leading-none text-white shadow-lg transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300 md:hidden"
+      >
+        +
+      </button>
     </section>
   );
 };

@@ -1,11 +1,11 @@
 import type { Database } from "./supabase";
 
 type InventoryMovement =
-  Database["public"]["Tables"]["inventory_movements"]["Row"];
+  Database["public"]["Tables"]["inventory_movement"]["Row"];
 type InventoryMovementInsert =
-  Database["public"]["Tables"]["inventory_movements"]["Insert"];
+  Database["public"]["Tables"]["inventory_movement"]["Insert"];
 type InventoryMovementUpdate =
-  Database["public"]["Tables"]["inventory_movements"]["Update"];
+  Database["public"]["Tables"]["inventory_movement"]["Update"];
 
 export type {
   InventoryMovement,

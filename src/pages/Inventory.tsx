@@ -1,9 +1,13 @@
 import { useState } from "react";
+import AddInventoryItemForm, {
+  type AddInventoryItemInput,
+} from "../components/inventory/AddInventoryItemForm";
 import InventoryTable from "../components/inventory/InventoryTable";
 import StockModal from "../components/inventory/StockModal";
 import { useInventoryItems } from "../hooks/useInventoryItems";
 import {
   adjustInventoryStock,
+  createInventoryItem,
   uploadInventoryImage,
 } from "../lib/inventoryService";
 import type { InventoryItem } from "../types/inventory_items";
@@ -12,6 +16,7 @@ const Inventory = () => {
   const { items, loading, error, refetch } = useInventoryItems();
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
   const [savingStock, setSavingStock] = useState(false);
+  const [creatingItem, setCreatingItem] = useState(false);
   const [uploadingItemId, setUploadingItemId] = useState<number | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [noticeVariant, setNoticeVariant] = useState<"success" | "error" | null>(
@@ -63,14 +68,58 @@ const Inventory = () => {
     }
   };
 
+  const handleCreateItem = async (input: AddInventoryItemInput) => {
+    setCreatingItem(true);
+    setNotice(null);
+    setNoticeVariant(null);
+
+    try {
+      const created = await createInventoryItem({
+        name: input.name,
+        price: input.price,
+        stock: input.stock,
+      });
+
+      if (input.imageFile) {
+        try {
+          await uploadInventoryImage(created.id, input.imageFile);
+          setNotice("New inventory item added with image.");
+          setNoticeVariant("success");
+        } catch (imageError) {
+          const message =
+            imageError instanceof Error
+              ? imageError.message
+              : "Image upload failed.";
+          setNotice(`Item added, but image upload failed: ${message}`);
+          setNoticeVariant("error");
+        }
+      } else {
+        setNotice("New inventory item added.");
+        setNoticeVariant("success");
+      }
+
+      await refetch();
+    } catch (createError) {
+      const message =
+        createError instanceof Error ? createError.message : "Failed to add item.";
+      setNotice(message);
+      setNoticeVariant("error");
+      throw createError;
+    } finally {
+      setCreatingItem(false);
+    }
+  };
+
   return (
     <section className="space-y-4">
       <div>
         <h2 className="text-xl font-semibold text-slate-900">Inventory Management</h2>
         <p className="text-sm text-slate-600">
-          Adjust stock levels and manage product images.
+          Add items, adjust stock levels, and manage product images.
         </p>
       </div>
+
+      <AddInventoryItemForm submitting={creatingItem} onSubmit={handleCreateItem} />
 
       {notice ? (
         <p
@@ -104,7 +153,7 @@ const Inventory = () => {
       {!loading && !error ? (
         <InventoryTable
           items={items}
-          actionDisabled={savingStock}
+          actionDisabled={savingStock || creatingItem}
           uploadingItemId={uploadingItemId}
           onAdjustStock={(item) => {
             setSelectedItem(item);

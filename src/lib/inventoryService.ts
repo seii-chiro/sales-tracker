@@ -1,11 +1,18 @@
 import { supabase } from "../supabaseClient";
 import type { InventoryItem } from "../types/inventory_items";
+import type { InventoryItemInsert } from "../types/inventory_items";
 import type { InventoryMovementInsert } from "../types/inventory_movement";
 import type { SaleInsert } from "../types/sales";
 
 export interface CheckoutLineInput {
   itemId: number;
   quantity: number;
+}
+
+export interface CreateInventoryItemInput {
+  name: string;
+  price: number;
+  stock: number;
 }
 
 interface ItemStockSnapshot {
@@ -133,6 +140,42 @@ export const fetchInventoryItems = async (): Promise<InventoryItem[]> => {
   }
 
   return data ?? [];
+};
+
+export const createInventoryItem = async (
+  input: CreateInventoryItemInput,
+): Promise<InventoryItem> => {
+  const name = input.name.trim();
+
+  if (!name) {
+    throw new Error("Item name is required.");
+  }
+
+  if (!Number.isFinite(input.price) || input.price < 0) {
+    throw new Error("Price must be greater than or equal to 0.");
+  }
+
+  if (!Number.isInteger(input.stock) || input.stock < 0) {
+    throw new Error("Stock must be a whole number greater than or equal to 0.");
+  }
+
+  const payload: InventoryItemInsert = {
+    name,
+    price: input.price,
+    stock: input.stock,
+  };
+
+  const { data, error } = await supabase
+    .from("inventory_items")
+    .insert(payload)
+    .select("*")
+    .single();
+
+  if (error || !data) {
+    throw new Error(error?.message ?? "Failed to create inventory item.");
+  }
+
+  return data;
 };
 
 export const checkoutSale = async (lines: CheckoutLineInput[]): Promise<void> => {

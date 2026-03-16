@@ -8,6 +8,7 @@ import { useInventoryItems } from "../hooks/useInventoryItems";
 import {
   adjustInventoryStock,
   createInventoryItem,
+  removeInventoryItem,
   uploadInventoryImage,
 } from "../lib/inventoryService";
 import type { InventoryItem } from "../types/inventory_items";
@@ -18,6 +19,7 @@ const Inventory = () => {
   const [savingStock, setSavingStock] = useState(false);
   const [creatingItem, setCreatingItem] = useState(false);
   const [uploadingItemId, setUploadingItemId] = useState<number | null>(null);
+  const [deletingItemId, setDeletingItemId] = useState<number | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [noticeVariant, setNoticeVariant] = useState<"success" | "error" | null>(
     null,
@@ -110,6 +112,39 @@ const Inventory = () => {
     }
   };
 
+  const handleRemoveItem = async (item: InventoryItem) => {
+    const shouldDelete = window.confirm(
+      `Remove "${item.name}" from inventory? This cannot be undone.`,
+    );
+
+    if (!shouldDelete) {
+      return;
+    }
+
+    setDeletingItemId(item.id);
+    setNotice(null);
+    setNoticeVariant(null);
+
+    try {
+      await removeInventoryItem(item.id);
+      await refetch();
+      if (selectedItem?.id === item.id) {
+        setSelectedItem(null);
+      }
+      setNotice("Inventory item removed.");
+      setNoticeVariant("success");
+    } catch (removeError) {
+      const message =
+        removeError instanceof Error
+          ? removeError.message
+          : "Failed to remove inventory item.";
+      setNotice(message);
+      setNoticeVariant("error");
+    } finally {
+      setDeletingItemId(null);
+    }
+  };
+
   return (
     <section className="space-y-4">
       <div>
@@ -155,9 +190,11 @@ const Inventory = () => {
           items={items}
           actionDisabled={savingStock || creatingItem}
           uploadingItemId={uploadingItemId}
+          deletingItemId={deletingItemId}
           onAdjustStock={(item) => {
             setSelectedItem(item);
           }}
+          onRemoveItem={handleRemoveItem}
           onUploadImage={handleImageUpload}
         />
       ) : null}

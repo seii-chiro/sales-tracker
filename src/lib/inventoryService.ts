@@ -178,6 +178,29 @@ export const createInventoryItem = async (
   return data;
 };
 
+export const removeInventoryItem = async (itemId: number): Promise<void> => {
+  const { data, error } = await supabase
+    .from("inventory_items")
+    .delete()
+    .eq("id", itemId)
+    .select("id")
+    .maybeSingle();
+
+  if (error) {
+    if (error.code === "23503") {
+      throw new Error(
+        "Cannot remove this item because it already has sales or movement history.",
+      );
+    }
+
+    throw new Error(error.message);
+  }
+
+  if (!data) {
+    throw new Error("Inventory item not found.");
+  }
+};
+
 export const checkoutSale = async (lines: CheckoutLineInput[]): Promise<void> => {
   const normalizedLines = lines.filter((line) => line.quantity > 0);
   if (normalizedLines.length === 0) {

@@ -41,9 +41,9 @@ const SalesTable = ({ sales }: SalesTableProps) => {
         ))}
       </div>
 
-      <div className="hidden overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm md:block">
+      <div className="hidden max-h-[32rem] overflow-auto rounded-xl border border-slate-200 bg-white shadow-sm md:block">
         <table className="min-w-full divide-y divide-slate-200">
-          <thead className="bg-slate-50">
+          <thead className="sticky top-0 bg-slate-50">
             <tr>
               <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                 Sold at

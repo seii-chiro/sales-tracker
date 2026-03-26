@@ -1,3 +1,12 @@
+# Sales Tracker
+
+Beginner step-by-step setup and deployment guide:
+
+- [Recreate and Deploy Guide](./docs/recreate-and-deploy-guide.md)
+- [Step 2 Alternative: Build the Web App (Broad Overview)](./docs/step-2-build-overview.md)
+
+---
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

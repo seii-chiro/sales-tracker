@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" fill="none">
+  <rect width="1200" height="680" fill="#F8FAFC"/>
+  <text x="70" y="90" font-family="Segoe UI, Arial, sans-serif" font-size="44" fill="#0F172A" font-weight="700">Step 1: Install These 3 Tools</text>
+
+  <rect x="80" y="170" width="320" height="380" rx="18" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="115" y="250" font-family="Segoe UI, Arial, sans-serif" font-size="36" fill="#1E3A8A" font-weight="700">Node.js</text>
+  <text x="115" y="300" font-family="Segoe UI, Arial, sans-serif" font-size="22" fill="#1E3A8A">Lets the app run</text>
+  <text x="115" y="340" font-family="Segoe UI, Arial, sans-serif" font-size="22" fill="#1E3A8A">on your computer</text>
+  <text x="115" y="420" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#1E3A8A">Get from: nodejs.org</text>
+
+  <rect x="440" y="170" width="320" height="380" rx="18" fill="#ECFDF5" stroke="#22C55E" stroke-width="2"/>
+  <text x="490" y="250" font-family="Segoe UI, Arial, sans-serif" font-size="36" fill="#14532D" font-weight="700">Git</text>
+  <text x="490" y="300" font-family="Segoe UI, Arial, sans-serif" font-size="22" fill="#14532D">Downloads and uploads</text>
+  <text x="490" y="340" font-family="Segoe UI, Arial, sans-serif" font-size="22" fill="#14532D">project files</text>
+  <text x="490" y="420" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#14532D">Get from: git-scm.com</text>
+
+  <rect x="800" y="170" width="320" height="380" rx="18" fill="#FEFCE8" stroke="#EAB308" stroke-width="2"/>
+  <text x="835" y="250" font-family="Segoe UI, Arial, sans-serif" font-size="36" fill="#713F12" font-weight="700">VS Code</text>
+  <text x="835" y="300" font-family="Segoe UI, Arial, sans-serif" font-size="22" fill="#713F12">Easy editor for files</text>
+  <text x="835" y="340" font-family="Segoe UI, Arial, sans-serif" font-size="22" fill="#713F12">and commands</text>
+  <text x="835" y="420" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#713F12">Get from: code.visualstudio.com</text>
+
+  <text x="70" y="620" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#334155">Tip: Accept default install options, then restart your computer.</text>
+</svg>

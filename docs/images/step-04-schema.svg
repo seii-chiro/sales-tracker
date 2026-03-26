@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" fill="none">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#475569" />
+    </marker>
+  </defs>
+  <rect width="1200" height="700" fill="#F8FAFC"/>
+  <text x="70" y="90" font-family="Segoe UI, Arial, sans-serif" font-size="42" fill="#0F172A" font-weight="700">Step 4: Database Tables</text>
+
+  <rect x="90" y="180" width="300" height="280" rx="16" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+  <text x="120" y="240" font-family="Segoe UI, Arial, sans-serif" font-size="28" fill="#1E3A8A" font-weight="700">inventory_items</text>
+  <text x="120" y="290" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#1E3A8A">id</text>
+  <text x="120" y="320" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#1E3A8A">name</text>
+  <text x="120" y="350" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#1E3A8A">price</text>
+  <text x="120" y="380" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#1E3A8A">stock</text>
+  <text x="120" y="410" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#1E3A8A">image_url</text>
+
+  <rect x="460" y="180" width="300" height="240" rx="16" fill="#FFFFFF" stroke="#16A34A" stroke-width="2"/>
+  <text x="560" y="240" font-family="Segoe UI, Arial, sans-serif" font-size="28" fill="#14532D" font-weight="700">sales</text>
+  <text x="490" y="290" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#14532D">inventory_item</text>
+  <text x="490" y="320" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#14532D">quantity, unit_price, total</text>
+  <text x="490" y="350" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#14532D">sold_at</text>
+
+  <rect x="830" y="180" width="300" height="280" rx="16" fill="#FFFFFF" stroke="#EA580C" stroke-width="2"/>
+  <text x="860" y="230" font-family="Segoe UI, Arial, sans-serif" font-size="26" fill="#9A3412" font-weight="700">inventory_movement</text>
+  <text x="860" y="290" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#9A3412">inventory_item</text>
+  <text x="860" y="320" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#9A3412">movement_type</text>
+  <text x="860" y="350" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#9A3412">quantity</text>
+  <text x="860" y="380" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#9A3412">reference_id</text>
+
+  <line x1="390" y1="300" x2="460" y2="300" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="760" y1="300" x2="830" y2="300" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <text x="90" y="560" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#334155">Plus one storage bucket: item_images (public).</text>
+</svg>

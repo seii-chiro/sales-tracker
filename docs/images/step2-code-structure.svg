@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" fill="none">
+  <rect width="1200" height="700" fill="#F8FAFC"/>
+  <text x="70" y="90" font-family="Segoe UI, Arial, sans-serif" font-size="42" fill="#0F172A" font-weight="700">Code Structure (Broad View)</text>
+
+  <rect x="90" y="170" width="260" height="420" rx="16" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <text x="130" y="225" font-family="Consolas, monospace" font-size="28" fill="#1E3A8A" font-weight="700">src/</text>
+  <text x="120" y="275" font-family="Consolas, monospace" font-size="20" fill="#1E3A8A">main.tsx</text>
+  <text x="120" y="305" font-family="Consolas, monospace" font-size="20" fill="#1E3A8A">App.tsx</text>
+  <text x="120" y="335" font-family="Consolas, monospace" font-size="20" fill="#1E3A8A">layouts/</text>
+  <text x="120" y="365" font-family="Consolas, monospace" font-size="20" fill="#1E3A8A">pages/</text>
+  <text x="120" y="395" font-family="Consolas, monospace" font-size="20" fill="#1E3A8A">components/</text>
+  <text x="120" y="425" font-family="Consolas, monospace" font-size="20" fill="#1E3A8A">hooks/</text>
+  <text x="120" y="455" font-family="Consolas, monospace" font-size="20" fill="#1E3A8A">lib/</text>
+  <text x="120" y="485" font-family="Consolas, monospace" font-size="20" fill="#1E3A8A">types/</text>
+  <text x="120" y="515" font-family="Consolas, monospace" font-size="20" fill="#1E3A8A">supabaseClient.ts</text>
+
+  <rect x="390" y="170" width="320" height="180" rx="16" fill="#DCFCE7" stroke="#16A34A" stroke-width="2"/>
+  <text x="420" y="225" font-family="Segoe UI, Arial, sans-serif" font-size="28" fill="#14532D" font-weight="700">UI Layer</text>
+  <text x="420" y="270" font-family="Segoe UI, Arial, sans-serif" font-size="21" fill="#14532D">RootLayout + pages + components</text>
+  <text x="420" y="300" font-family="Segoe UI, Arial, sans-serif" font-size="21" fill="#14532D">Handles what users see</text>
+
+  <rect x="390" y="390" width="320" height="200" rx="16" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+  <text x="420" y="445" font-family="Segoe UI, Arial, sans-serif" font-size="28" fill="#92400E" font-weight="700">Logic Layer</text>
+  <text x="420" y="490" font-family="Segoe UI, Arial, sans-serif" font-size="21" fill="#92400E">hooks + lib services</text>
+  <text x="420" y="520" font-family="Segoe UI, Arial, sans-serif" font-size="21" fill="#92400E">Handles business rules</text>
+
+  <rect x="750" y="260" width="360" height="260" rx="16" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="780" y="315" font-family="Segoe UI, Arial, sans-serif" font-size="28" fill="#4C1D95" font-weight="700">Data Layer</text>
+  <text x="780" y="360" font-family="Segoe UI, Arial, sans-serif" font-size="21" fill="#4C1D95">Supabase DB tables</text>
+  <text x="780" y="390" font-family="Segoe UI, Arial, sans-serif" font-size="21" fill="#4C1D95">Storage: item_images bucket</text>
+  <text x="780" y="420" font-family="Segoe UI, Arial, sans-serif" font-size="21" fill="#4C1D95">API keys via .env</text>
+
+  <line x1="350" y1="350" x2="390" y2="260" stroke="#334155" stroke-width="3"/>
+  <line x1="350" y1="430" x2="390" y2="480" stroke="#334155" stroke-width="3"/>
+  <line x1="710" y1="290" x2="750" y2="320" stroke="#334155" stroke-width="3"/>
+  <line x1="710" y1="510" x2="750" y2="460" stroke="#334155" stroke-width="3"/>
+</svg>

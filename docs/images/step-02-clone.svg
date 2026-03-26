@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" fill="none">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#334155" />
+    </marker>
+  </defs>
+  <rect width="1200" height="680" fill="#F8FAFC"/>
+  <text x="70" y="90" font-family="Segoe UI, Arial, sans-serif" font-size="42" fill="#0F172A" font-weight="700">Step 2: Get the Project Files</text>
+
+  <rect x="100" y="180" width="420" height="320" rx="18" fill="#F1F5F9" stroke="#64748B" stroke-width="2"/>
+  <text x="140" y="250" font-family="Consolas, monospace" font-size="24" fill="#0F172A">git clone</text>
+  <text x="140" y="290" font-family="Consolas, monospace" font-size="24" fill="#0F172A">https://github.com/you/</text>
+  <text x="140" y="330" font-family="Consolas, monospace" font-size="24" fill="#0F172A">sales-tracker.git</text>
+  <text x="140" y="390" font-family="Consolas, monospace" font-size="24" fill="#0F172A">cd sales-tracker</text>
+
+  <rect x="700" y="180" width="400" height="320" rx="18" fill="#E2E8F0" stroke="#334155" stroke-width="2"/>
+  <rect x="760" y="240" width="280" height="210" rx="12" fill="#FFFFFF" stroke="#475569" stroke-width="2"/>
+  <text x="800" y="285" font-family="Segoe UI, Arial, sans-serif" font-size="22" fill="#0F172A" font-weight="600">sales-tracker</text>
+  <text x="790" y="325" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#334155">src/</text>
+  <text x="790" y="355" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#334155">public/</text>
+  <text x="790" y="385" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#334155">package.json</text>
+
+  <line x1="520" y1="340" x2="700" y2="340" stroke="#334155" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <text x="70" y="580" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#334155">You now have a local copy. Next: connect it to your own Supabase database.</text>
+</svg>
